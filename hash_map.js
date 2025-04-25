@@ -1,3 +1,6 @@
 export default class HashMap {
-  constructor() {}
+  constructor(loadFactor, capacity) {
+    this.loadFactor = loadFactor;
+    this.capacity = capacity;
+  }
 }
