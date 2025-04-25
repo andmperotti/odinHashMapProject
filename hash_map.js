@@ -1,3 +1,6 @@
+import LinkedList from "./linked_list.js";
+import Node from "./node_instance.js";
+
 export default function HashMap(loadFactor = 0.75, capacity = 16) {
   let buckets = Array.from({length: capacity}, (e) => null);
 
@@ -12,5 +15,15 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     return hashCode;
   }
 
-  return {hash};
+  function set(key, value) {
+    let hash = hash(key);
+    if (buckets[hash] === null) {
+      buckets[hash] = new LinkedList();
+      buckets[hash].append(new Node(value));
+    } else {
+      buckets[hash].append(value);
+    }
+  }
+
+  return {set};
 }
