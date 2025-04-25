@@ -16,12 +16,14 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
   }
 
   function set(key, value) {
-    let hash = hash(key);
-    if (buckets[hash] === null) {
-      buckets[hash] = new LinkedList();
-      buckets[hash].append(new Node(value));
+    let index = hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    } else if (buckets[index] === null) {
+      buckets[index] = new LinkedList();
+      buckets[index].append(new Node(value));
     } else {
-      buckets[hash].append(value);
+      buckets[index].append(value);
     }
   }
 
