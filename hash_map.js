@@ -145,7 +145,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
           bucketEntries.push(`${tempNode.key}, ${tempNode.value}}`);
           tempNode = tempNode.next;
         }
-        hashEntries = hashEntries.concat(bucketValues);
+        hashEntries = hashEntries.concat(bucketEntries);
       }
     }
     return hashEntries;
