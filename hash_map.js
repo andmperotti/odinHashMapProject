@@ -24,8 +24,8 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     } else if (buckets[index] === null) {
       //if the value at the bucket for this hashed data is === null, then create a linkedList and add a node to it
       buckets[index] = new LinkedList();
-      buckets[index].append(new Node(key, value));
-    } else {
+      buckets[index].append(key, value);
+    } else if (buckets[index] !== null) {
       //otherwise there is a linked list at that bucket and we want to just add a node to the end of the linked list
       buckets[index].append(value);
     }
@@ -97,14 +97,16 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     //return outer array
     let hashKeys = [];
     for (let bucket of buckets) {
-      if (bucket !== undefined) {
+      if (bucket !== null) {
         let bucketKeys = [];
         let tempNode = bucket.head;
+        //iterate until no nodes, pushing each nodes key
         while (tempNode !== null) {
           bucketKeys.push(tempNode.key);
           tempNode = tempNode.next;
         }
-        hashKeys.concat(bucketKeys);
+        //overwrite the hashKeys array with the concat'ed version (concat returns a new array, it does not modify)
+        hashKeys = hashKeys.concat(bucketKeys);
       }
     }
     return hashKeys;
@@ -115,14 +117,16 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     //same as above method code, but with tempNode.value targeted instead of tempNode.key
     let hashValues = [];
     for (let bucket of buckets) {
-      if (bucket !== undefined) {
+      if (bucket !== null) {
         let bucketValues = [];
         let tempNode = bucket.head;
+        //iterate until no nodes, pushing each nodes key
         while (tempNode !== null) {
           bucketValues.push(tempNode.value);
           tempNode = tempNode.next;
         }
-        hashValues.concat(bucketKeys);
+        //overwrite the hashValues array with the concat'ed version (concat returns a new array, it does not modify)
+        hashValues = hashValues.concat(bucketValues);
       }
     }
     return hashValues;
@@ -133,17 +137,18 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     //very similar to above, but change the value being pushed into an array built of the key then value
     let hashEntries = [];
     for (let bucket of buckets) {
-      if (bucket !== undefined) {
-        let bucketPairs = [];
+      if (bucket !== null) {
+        let bucketEntries = [];
         let tempNode = bucket.head;
+        //iterate until no nodes, pushing each nodes key
         while (tempNode !== null) {
-          bucketValues.push([`${tempNode.key}, ${tempNode.value}`]);
+          bucketEntries.push(`${tempNode.key}, ${tempNode.value}}`);
           tempNode = tempNode.next;
         }
-        hashValues.concat(bucketKeys);
+        hashEntries = hashEntries.concat(bucketValues);
       }
     }
-    return hashValues;
+    return hashEntries;
   }
 
   return {set, get, has, remove, length, clear, keys, values, entries};
