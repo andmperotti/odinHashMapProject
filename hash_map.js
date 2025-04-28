@@ -128,6 +128,24 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     return hashValues;
   }
 
+  //returns an array that contains each key, value pair. Example: [[firstKey, firstValue], [secondKey, secondValue]]
+  function entries() {
+    //very similar to above, but change the value being pushed into an array built of the key then value
+    let hashEntries = [];
+    for (let bucket of buckets) {
+      if (bucket !== undefined) {
+        let bucketPairs = [];
+        let tempNode = bucket.head;
+        while (tempNode !== null) {
+          bucketValues.push([`${tempNode.key}, ${tempNode.value}`]);
+          tempNode = tempNode.next;
+        }
+        hashValues.concat(bucketKeys);
+      }
+    }
+    return hashValues;
+  }
+
   return {set};
 }
 
