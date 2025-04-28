@@ -87,6 +87,29 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     buckets.forEach((bucket) => delete buckets[bucket]);
   }
 
+  //returns an array containing all the keys inside the hash map.
+  function keys() {
+    //build an array
+    //iterate over each bucket
+    //iterate over each node in the bucket (linked list)
+    //add key values to array
+    //add inner arrays elements to outer array
+    //return outer array
+    let hashKeys = [];
+    for (let bucket of buckets) {
+      if (bucket !== undefined) {
+        let bucketKeys = [];
+        let tempNode = bucket.head;
+        while (tempNode !== null) {
+          bucketKeys.push(tempNode.key);
+          tempNode = tempNode.next;
+        }
+        hashKeys.concat(bucketKeys);
+      }
+    }
+    return hashKeys;
+  }
+
   return {set};
 }
 
