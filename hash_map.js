@@ -66,9 +66,9 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     let index = hash(key);
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bounds");
-    } else if (buckets.index) {
-      //remove specific node in the hash map, aka replace its linked list with a new linked list
-      buckets.index = new LinkedList();
+    } else if (buckets.index !== undefined) {
+      //remove value from specific node, causing it to be undefined aka the state it would be in before set()'ing any value into it
+      delete buckets[index];
     } else {
       //otherwise if it can't find the key value pair in the hash map, return false
       return false;
@@ -79,6 +79,12 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
   function length() {
     //iterate over each bucket summing the returned values of linkedList.size which returns the size of the linked list in that bucket
     return buckets.reduce((acc, linkedList) => acc + linkedList.size(), 0);
+  }
+
+  //removes all entries in the hash map.
+  function clear() {
+    //iterate over each bucket and set their value === to a new linkedList which is empty
+    buckets.forEach((bucket) => delete buckets[bucket]);
   }
 
   return {set};
