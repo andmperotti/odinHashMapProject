@@ -110,6 +110,24 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     return hashKeys;
   }
 
+  //returns an array containing all the values.
+  function values() {
+    //same as above method code, but with tempNode.value targeted instead of tempNode.key
+    let hashValues = [];
+    for (let bucket of buckets) {
+      if (bucket !== undefined) {
+        let bucketValues = [];
+        let tempNode = bucket.head;
+        while (tempNode !== null) {
+          bucketValues.push(tempNode.value);
+          tempNode = tempNode.next;
+        }
+        hashValues.concat(bucketKeys);
+      }
+    }
+    return hashValues;
+  }
+
   return {set};
 }
 
