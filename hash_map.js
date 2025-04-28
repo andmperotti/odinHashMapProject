@@ -47,6 +47,19 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     }
   }
 
+  //takes a key as an argument and returns true or false based on whether or not the key is in the hash map.
+  function has(key) {
+    let index = hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    } else if (buckets.index !== null) {
+      //if there is a value stored at the prospective bucket, return true
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return {set};
 }
 
