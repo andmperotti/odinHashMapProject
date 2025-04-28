@@ -146,7 +146,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     return hashValues;
   }
 
-  return {set};
+  return {set, get, has, remove, length, clear, keys, values, entries};
 }
 
 //going to have to check load factor each time something is added
