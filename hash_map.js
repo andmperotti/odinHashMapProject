@@ -4,7 +4,7 @@ import Node from "./node_instance.js";
 export default function HashMap(loadFactor = 0.75, capacity = 16) {
   let buckets = Array.from({length: capacity}, (e) => null);
 
-  //"takes a key and produces a hash code with it. We already implemented a fairly good hash function in the previous lesson"... I've used that one here
+  //"takes a key and produces a hash code with it. We already implemented a fairly good hasNoh function in the previous lesson"... I've used that one here
   function hash(key) {
     let hashCode = 0;
     const primeNumber = 31;
@@ -24,7 +24,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     } else if (buckets[index] === null) {
       //if the value at the bucket for this hashed data is === null, then create a linkedList and add a node to it
       buckets[index] = new LinkedList();
-      buckets[index].append(new Node(value));
+      buckets[index].append(new Node(key, value));
     } else {
       //otherwise there is a linked list at that bucket and we want to just add a node to the end of the linked list
       buckets[index].append(value);
@@ -56,6 +56,21 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       //if there is a value stored at the prospective bucket, return true
       return true;
     } else {
+      return false;
+    }
+  }
+
+  //takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
+  function remove(key) {
+    //loop through, until you find a node that has the key and value, remove that node by setting the previous nodes next to the found nodes next
+    let index = hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bounds");
+    } else if (buckets.index) {
+      //remove specific node in the hash map, aka replace its linked list with a new linked list
+      buckets.index = new LinkedList();
+    } else {
+      //otherwise if it can't find the key value pair in the hash map, return false
       return false;
     }
   }
