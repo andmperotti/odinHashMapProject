@@ -142,7 +142,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
         let tempNode = bucket.head;
         //iterate until no nodes, pushing each nodes key
         while (tempNode !== null) {
-          bucketEntries.push(`${tempNode.key}, ${tempNode.value}}`);
+          bucketEntries.push(`[${tempNode.key}, ${tempNode.value}]`);
           tempNode = tempNode.next;
         }
         hashEntries = hashEntries.concat(bucketEntries);
