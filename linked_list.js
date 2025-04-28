@@ -6,25 +6,25 @@ export default class LinkedList {
   }
 
   //adds a new node containing value to the end of the list
-  append(value) {
+  append(key, value) {
     if (this.head === null) {
-      this.head = new NodeInstance(value);
+      this.head = new NodeInstance(key, value);
     } else {
       let tempNode = this.head;
       while (tempNode.next !== null) {
         tempNode = tempNode.next;
       }
-      tempNode.next = new NodeInstance(value);
+      tempNode.next = new NodeInstance(key, value);
     }
   }
 
   // adds a new node containing value to the start of the list
-  prepend(value) {
+  prepend(key, value) {
     if (this.head === null) {
-      this.head = new NodeInstance(value);
+      this.head = new NodeInstance(key, value);
     } else {
       let previousFirstNode = this.head;
-      this.head = new NodeInstance(value);
+      this.head = new NodeInstance(key, value);
       this.head.next = previousFirstNode;
     }
   }
@@ -95,15 +95,19 @@ export default class LinkedList {
   }
 
   //returns true if the passed in value is in the list and otherwise returns false.
-  contains(value) {
+  contains(key, value) {
     if (this.head === null) {
       return false;
     } else {
       let tempNode = this.head;
-      while (tempNode.value !== value && tempNode.next !== null) {
+      while (
+        tempNode.value !== value &&
+        tempNode.key !== key &&
+        tempNode.next !== null
+      ) {
         tempNode = tempNode.next;
       }
-      if (tempNode.value === value) {
+      if (tempNode.value === value && tempNode.key === key) {
         return true;
       } else {
         return false;
@@ -112,17 +116,21 @@ export default class LinkedList {
   }
 
   //returns the index of the node containing value, or null if not found.
-  find(value) {
+  find(key, value) {
     if (this.head === null) {
       return null;
     } else {
       let currentNode = this.head;
       let indexCount = 0;
-      while (currentNode.next !== null && currentNode.value !== value) {
+      while (
+        currentNode.next !== null &&
+        currentNode.key !== key &&
+        currentNode.value !== value
+      ) {
         indexCount++;
         currentNode = currentNode.next;
       }
-      if (currentNode.value === value) {
+      if (currentNode.value === value && currentNode.key === key) {
         return indexCount;
       } else {
         return null;
@@ -130,7 +138,7 @@ export default class LinkedList {
     }
   }
 
-  //represents your LinkedList objects as strings, so you can print them out and preview them in the console. The format should be: ( value ) -> ( value ) -> ( value ) -> null
+  //represents your LinkedList objects as strings, so you can print them out and preview them in the console. The format should be: ( key : value ) -> ( key : value ) -> ( key : value ) -> null
   toString() {
     if (this.head === null) {
       return null;
@@ -138,7 +146,7 @@ export default class LinkedList {
       let stringArr = [];
       let currentNode = this.head;
       while (currentNode !== null) {
-        stringArr.push(`(${currentNode.value}) -> `);
+        stringArr.push(`(${currentNode.key} : ${currentNode.value}) -> `);
         currentNode = currentNode.next;
       }
       stringArr.push("null");
@@ -147,14 +155,14 @@ export default class LinkedList {
   }
 
   //that inserts a new node with the provided value at the given index.
-  insertAt(value, index) {
+  insertAt(key, value, index) {
     if (this.head === null && index > 0) {
       console.log("index greater than current amount of nodes");
     } else if (index === 0 && this.head === null) {
-      this.head = new NodeInstance(value);
+      this.head = new NodeInstance(key, value);
     } else if (index === 0 && this.head.next !== null) {
       let prevNode = this.head;
-      this.head = new NodeInstance(value);
+      this.head = new NodeInstance(key, value);
       this.head.next = prevNode;
     } else {
       let currentNode = this.head;
@@ -166,18 +174,19 @@ export default class LinkedList {
         currentNode = currentNode.next;
       }
       if (currentIndex === index) {
-        let newNode = new NodeInstance(value);
+        let newNode = new NodeInstance(key, value);
         prevNode.next = newNode;
         newNode.next = currentNode;
       } else if (currentIndex + 1 === index) {
-        currentNode.next = new NodeInstance(value);
+        currentNode.next = new NodeInstance(key, value);
         currentNode.next.next = null;
       } else {
-        console.log("index greater than current amount of nodes");
+        console.log(
+          "index greater than current amount of nodes, you can use append if you'd like to add a node to the end."
+        );
       }
     }
   }
-  //trying to add a node to the back isn't working
 
   //that removes the node at the given index.
   removeAt(index) {
