@@ -52,14 +52,13 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     let index = hash(key);
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bounds");
-    } else if (buckets.index !== null) {
+    } else if (buckets[index] !== null) {
       //if there is a value stored at the prospective bucket, return true
-      return true;
+      return buckets[index].containsKey(key);
     } else {
       return false;
     }
   }
-  //this is wrong, just because a hash map has an index that could be for a key argument does not mean the key is in the hashmap
 
   //takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
   function remove(key) {
