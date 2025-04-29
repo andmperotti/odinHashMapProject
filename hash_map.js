@@ -27,7 +27,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       buckets[index].append(key, value);
     } else if (buckets[index] !== null) {
       //otherwise there is a linked list at that bucket and we want to just add a node to the end of the linked list
-      buckets[index].append(value);
+      buckets[index].append(key, value);
     }
     //"it’s important to grow buckets exactly as they are being expanded"
   }
