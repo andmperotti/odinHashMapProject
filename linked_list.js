@@ -5,7 +5,7 @@ export default class LinkedList {
     this.head = head;
   }
 
-  //adds a new node containing value to the end of the list
+  //adds a new node containing key and value to the end of the list
   append(key, value) {
     if (this.head === null) {
       this.head = new NodeInstance(key, value);
@@ -18,7 +18,7 @@ export default class LinkedList {
     }
   }
 
-  // adds a new node containing value to the start of the list
+  // adds a new node containing key and value to the start of the list
   prepend(key, value) {
     if (this.head === null) {
       this.head = new NodeInstance(key, value);
@@ -94,7 +94,7 @@ export default class LinkedList {
     }
   }
 
-  //returns true if the passed in value is in the list and otherwise returns false.
+  //returns true if the passed in key and value is in the list and otherwise returns false.
   contains(key, value) {
     if (this.head === null) {
       return false;
@@ -115,7 +115,31 @@ export default class LinkedList {
     }
   }
 
-  //returns the index of the node containing value, or null if not found.
+  //accessory function for remove method, called on a bucket looks at head node if head exists, or loops through the linked list in the bucket to find if a node exists with a given key
+  containsKey(key) {
+    //if bucket is === null, return false
+    if (this.head === null) {
+      return false;
+    } else {
+      let tempNode = this.head;
+      //if the first nodes key===key, return true
+      if (tempNode.key === key) {
+        return true;
+      }
+      //otherwise loop until we find the node.key===key or we hit the end of the linked list
+      while (tempNode.key !== key && tempNode !== null) {
+        tempNode = tempNode.next;
+      }
+      //if key found in a node return true, else return false
+      if (tempNode.key === key) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  //returns the index of the node containing key and value, or null if not found.
   find(key, value) {
     if (this.head === null) {
       return null;
