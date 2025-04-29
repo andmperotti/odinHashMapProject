@@ -83,8 +83,9 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
 
   //removes all entries in the hash map.
   function clear() {
-    //iterate over each bucket and set their value === to a new linkedList which is empty
-    buckets.forEach((bucket) => delete buckets[bucket]);
+    //iterate over each bucket and set their value === to null, which is the value they'd hold before set() is invoked which saves a linked list in the bucket
+    buckets = buckets.map((bucket) => (bucket = null));
+    console.log("All entries deleted");
   }
 
   //returns an array containing all the keys inside the hash map.
