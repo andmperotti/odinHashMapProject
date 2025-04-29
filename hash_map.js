@@ -9,7 +9,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     let hashCode = 0;
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % buckets.length;
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % capacity;
     }
     // IMPORTANT!!!!! this modulo operation is needed for when argument values are too large, this might be done incorrectly by me, so maybe come back to this later.
     return hashCode;
@@ -30,6 +30,9 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       buckets[index].append(key, value);
     }
     //"it’s important to grow buckets exactly as they are being expanded"
+    if (loadCheck()) {
+      doubleCapacity();
+    }
   }
 
   //takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
@@ -198,6 +201,38 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       }
     }
     return hashEntries;
+  }
+
+  function loadCheck() {
+    if (loadFactor * capacity < length()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function doubleCapacity() {
+    //create variable for old buckets, just references it,  needs to be a deep copy because we're going to swap out the old for the new empty double length array
+    let oldBuckets = JSON.parse(JSON.stringify(buckets));
+    //create variable for new buckets, which will override original buckets after generating new buckets and placing pre existing items
+    capacity *= 2;
+    let newBuckets = Array.from({length: capacity}, (bucket) => null);
+    //change assignment of 'buckets' to point at this new array
+    buckets = newBuckets;
+    //iterate over pre existing nodes and re set() them into new buckets
+    for (let oldBucket of oldBuckets) {
+      if (oldBucket !== null && oldBucket.head !== null) {
+        //temp variable === first node
+        let tempNode = oldBucket.head;
+        while (tempNode !== null) {
+          set(tempNode.key, tempNode.value);
+          tempNode = tempNode.next;
+        }
+      }
+    }
+    console.log(
+      "Capacity has been doubled because load factor had been achieved"
+    );
   }
 
   return {
