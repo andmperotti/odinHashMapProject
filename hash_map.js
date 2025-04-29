@@ -59,18 +59,48 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       return false;
     }
   }
+  //this is wrong, just because a hash map has an index that could be for a key argument does not mean the key is in the hashmap
 
   //takes a key as an argument. If the given key is in the hash map, it should remove the entry with that key and return true. If the key isn’t in the hash map, it should return false.
   function remove(key) {
     //loop through, until you find a node that has the key and value, remove that node by setting the previous nodes next to the found nodes next
     let index = hash(key);
+    //edge case check
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bounds");
-    } else if (buckets.index !== undefined) {
-      //remove value from specific node, causing it to be undefined aka the state it would be in before set()'ing any value into it
-      delete buckets[index];
+      //else we'll check if the bucket !== null because that would mean it does not hold an instance of a linkedList and won't be able to use the containsKey method to check if the key is found in the bucket's linked list
+    } else if (buckets[index] !== null && buckets[index].containsKey(key)) {
+      //if removing the only node in the linked list then set the bucket === null
+      if (
+        buckets[index].head.key === key &&
+        buckets[index].head.next === null
+      ) {
+        buckets[index] = null;
+      } else {
+        //else, there's more than one node in the linked list, remove the specific node
+        //if first node
+        if (buckets[index].head.key === key) {
+          buckets[index].head = buckets[index].head.next;
+        } else {
+          //if any other node
+          let currentNode = buckets[index].head;
+          let prevNode;
+          while (currentNode.key !== key) {
+            prevNode = currentNode;
+            currentNode = currentNode.next;
+          }
+          //remove specific key node by setting previous node next to the targeted nodes next node or null in case the targeted node was the last node
+          if (currentNode.next !== null) {
+            prevNode.next = currentNode.next;
+          } else {
+            prevNode.next = null;
+          }
+        }
+      }
+      //need to return true after taking action
+      return true;
     } else {
-      //otherwise if it can't find the key value pair in the hash map, return false
+      //otherwise if it can't find the key in the hash map, return false
       return false;
     }
   }
@@ -158,7 +188,17 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     return hashEntries;
   }
 
-  return {set, get, has, remove, length, clear, keys, values, entries};
+  return {
+    set,
+    get,
+    has,
+    remove,
+    length,
+    clear,
+    keys,
+    values,
+    entries,
+  };
 }
 
 //going to have to check load factor each time something is added
