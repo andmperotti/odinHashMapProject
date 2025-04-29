@@ -77,8 +77,14 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
 
   //returns the number of stored keys in the hash map.
   function length() {
-    //iterate over each bucket summing the returned values of linkedList.size which returns the size of the linked list in that bucket
-    return buckets.reduce((acc, linkedList) => acc + linkedList.size(), 0);
+    //iterate over each bucket summing the returned values of linkedList.size which returns the size of the linked list in that bucket, add those returned counts into nodeTotal variable and return that expression when done iterating
+    let nodeTotal = 0;
+    for (let bucket of buckets) {
+      if (bucket !== null) {
+        nodeTotal += bucket.size();
+      }
+    }
+    return nodeTotal;
   }
 
   //removes all entries in the hash map.
