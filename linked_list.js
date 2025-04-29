@@ -118,7 +118,7 @@ export default class LinkedList {
   //accessory function for remove method, called on a bucket looks at head node if head exists, or loops through the linked list in the bucket to find if a node exists with a given key
   containsKey(key) {
     //if bucket is === null, or if somehow an empty linked list is in the bucket with head===null, return false
-    if (this === null || this.head === null) {
+    if (this.head === null) {
       return false;
     } else {
       let tempNode = this.head;
