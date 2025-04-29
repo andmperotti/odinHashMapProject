@@ -33,16 +33,29 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
   }
 
   //takes one argument as a key and returns the value that is assigned to this key. If a key is not found, return null.
-  //wouldn't that just give the first nodes value at that bucket?
   function get(key) {
     let index = hash(key);
+    //if past edge cases, throw error
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bounds");
-    } else if (buckets.index) {
-      //if value is found
-      return buckets.index;
+    } else if (buckets[index] !== null && buckets[index].containsKey(key)) {
+      //otherwise if the bucket is not holding null and if the key is in that bucket, return the value
+      let tempNode = buckets[index].head;
+      //if the first nodes key===key, return true
+      if (tempNode.key === key) {
+        return tempNode.value;
+      }
+      //otherwise loop until we find the node.key===key or we hit the end of the linked list
+      while (tempNode.key !== key && tempNode !== null) {
+        tempNode = tempNode.next;
+      }
+      //if key found in a node return true, else return false
+      if (tempNode.key === key) {
+        return tempNode.value;
+      } else {
+        return null;
+      }
     } else {
-      //if value isn't found
       return null;
     }
   }
