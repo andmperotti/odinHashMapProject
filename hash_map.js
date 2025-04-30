@@ -25,9 +25,18 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       //if the value at the bucket for this hashed data is === null, then create a linkedList and add a node to it
       buckets[index] = new LinkedList();
       buckets[index].append(key, value);
-    } else if (buckets[index] !== null) {
+    } else if (
+      buckets[index] !== null &&
+      Object.hasOwn(buckets[index], "head")
+    ) {
       //otherwise there is a linked list at that bucket and we want to just add a node to the end of the linked list
-      buckets[index].append(key, value);
+      if (buckets[index].containsKey(key)) {
+        //if the key already exists, overwrite the value with the new value
+        buckets[index].value = value;
+      } else {
+        //otherwise if the key doesn't exist in an already existing node, create a new node for this key value pair and add it into the linked list
+        buckets[index].append(key, value);
+      }
     }
     //"it’s important to grow buckets exactly as they are being expanded"
     if (loadCheck()) {
