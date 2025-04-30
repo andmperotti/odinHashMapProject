@@ -1,7 +1,7 @@
 import LinkedList from "./linked_list.js";
 
 export default function HashMap(loadFactor = 0.75, capacity = 16) {
-  let buckets = Array.from({length: capacity}, (e) => null);
+  let buckets = Array.from({ length: capacity }, () => null);
 
   //"takes a key and produces a hash code with it. We already implemented a fairly good hasNoh function in the previous lesson"... I've used that one here
   function hash(key) {
@@ -144,6 +144,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
   //removes all entries in the hash map.
   function clear() {
     //iterate over each bucket and set their value === to null, which is the value they'd hold before set() is invoked which saves a linked list in the bucket
+    // eslint-disable-next-line no-unused-vars
     buckets = buckets.map((bucket) => (bucket = null));
     console.log("All entries deleted");
   }
@@ -225,7 +226,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     let oldBuckets = JSON.parse(JSON.stringify(buckets));
     //create variable for new buckets, which will override original buckets after generating new buckets and placing pre existing items
     capacity *= 2;
-    let newBuckets = Array.from({length: capacity}, (bucket) => null);
+    let newBuckets = Array.from({ length: capacity }, () => null);
     //change assignment of 'buckets' to point at this new array
     buckets = newBuckets;
     //iterate over pre existing nodes and re set() them into new buckets
@@ -240,6 +241,7 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
       }
     }
     console.log(
+      // eslint-disable-next-line prettier/prettier
       "Capacity has been doubled because load factor had been achieved"
     );
   }
