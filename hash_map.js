@@ -1,5 +1,4 @@
 import LinkedList from "./linked_list.js";
-import Node from "./node_instance.js";
 
 export default function HashMap(loadFactor = 0.75, capacity = 16) {
   let buckets = Array.from({length: capacity}, (e) => null);
@@ -17,23 +16,25 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
   //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten, and we can say that we update the key’s value (e.g. Carlos is our key but it is called twice: once with value I am the old value., and once with value I am the new value.. Following this logic, Carlos should contain only the latter value).
   function set(key, value) {
     let index = hash(key);
-    //if index is > buckets.length then there has been some kind of an error and you should return an error
+    //if index is greater than buckets.length then there has been some kind of an error and you should return an error
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bounds");
     } else if (buckets[index] === null) {
       //if the value at the bucket for this hashed data is === null, then create a linkedList and add a node to it
       buckets[index] = new LinkedList();
       buckets[index].append(key, value);
-    } else if (
-      buckets[index] !== null &&
-      Object.hasOwn(buckets[index], "head")
-    ) {
-      //otherwise there is a linked list at that bucket and we want to just add a node to the end of the linked list
+    } else if (buckets[index] !== null) {
+      //otherwise there is a linked list at that bucket
+      //if the key already exists in this bucket, overwrite teh value with the new value
       if (buckets[index].containsKey(key)) {
-        //if the key already exists, overwrite the value with the new value
-        buckets[index].value = value;
+        //iterate until you find the node the key is in already, then change the value
+        let tempNode = buckets[index].head;
+        while (tempNode.key !== key) {
+          tempNode = tempNode.next;
+        }
+        tempNode.value = value;
       } else {
-        //otherwise if the key doesn't exist in an already existing node, create a new node for this key value pair and add it into the linked list
+        //otherwise if the key doesn't exist in the bucket, create a new node for this key value pair and add it into the linked list
         buckets[index].append(key, value);
       }
     }
@@ -255,5 +256,3 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     entries,
   };
 }
-
-//going to have to check load factor each time something is added
