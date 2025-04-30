@@ -127,7 +127,7 @@ export default class LinkedList {
         return true;
       }
       //otherwise loop until we find the node.key===key or we hit the end of the linked list
-      while (tempNode.key !== key && tempNode !== null) {
+      while (tempNode.next !== null && tempNode.key !== key) {
         tempNode = tempNode.next;
       }
       //if key found in a node return true, else return false
