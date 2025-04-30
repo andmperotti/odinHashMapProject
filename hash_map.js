@@ -11,7 +11,6 @@ export default function HashMap(loadFactor = 0.75, capacity = 16) {
     for (let i = 0; i < key.length; i++) {
       hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % capacity;
     }
-    // IMPORTANT!!!!! this modulo operation is needed for when argument values are too large, this might be done incorrectly by me, so maybe come back to this later.
     return hashCode;
   }
 
